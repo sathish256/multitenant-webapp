@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.DependsOn;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
@@ -48,16 +49,13 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     private SAMLEntryPoint samlEntryPoint;
 
     @Autowired
+    private SAMLDiscovery samlDiscovery;
+
+    @Autowired
     private SAMLLogoutFilter samlLogoutFilter;
 
     @Autowired
     private SAMLLogoutProcessingFilter samlLogoutProcessingFilter;
-
-    @Bean
-    public SAMLDiscovery samlDiscovery() {
-        SAMLDiscovery idpDiscovery = new SAMLDiscovery();
-        return idpDiscovery;
-    }
 
     @Autowired
     private SAMLAuthenticationProvider samlAuthenticationProvider;
@@ -87,12 +85,13 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
     @Bean
+    @DependsOn("samlEntryPoint")
     public FilterChainProxy samlFilter() throws Exception {
         List<SecurityFilterChain> chains = new ArrayList<>();
         chains.add(new DefaultSecurityFilterChain(new AntPathRequestMatcher("/saml/SSO/**"),
             samlWebSSOProcessingFilter()));
         chains.add(new DefaultSecurityFilterChain(new AntPathRequestMatcher("/saml/discovery/**"),
-            samlDiscovery()));
+            samlDiscovery));
         chains.add(new DefaultSecurityFilterChain(new AntPathRequestMatcher("/saml/login/**"),
             samlEntryPoint));
         chains.add(new DefaultSecurityFilterChain(new AntPathRequestMatcher("/saml/logout/**"),

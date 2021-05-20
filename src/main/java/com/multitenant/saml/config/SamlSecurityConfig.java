@@ -16,6 +16,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.DependsOn;
 import org.springframework.core.io.DefaultResourceLoader;
 import org.springframework.core.io.Resource;
 import org.springframework.security.saml.*;
@@ -123,6 +124,14 @@ public class SamlSecurityConfig {
     }
 
     @Bean
+    public SAMLDiscovery samlDiscovery() {
+        SAMLDiscovery idpDiscovery = new SAMLDiscovery();
+        return idpDiscovery;
+    }
+
+
+    @Bean
+    @DependsOn("samlDiscovery")
     public SAMLEntryPoint samlEntryPoint() {
         SAMLEntryPoint samlEntryPoint = new SAMLEntryPoint();
         samlEntryPoint.setDefaultProfileOptions(defaultWebSSOProfileOptions());
@@ -142,7 +151,7 @@ public class SamlSecurityConfig {
     public ExtendedMetadataDelegate oktaExtendedMetadataProvider() throws MetadataProviderException {
         File metadata = null;
         try {
-            metadata = new File("./src/main/resources/saml/metadata/sso.xml");
+            metadata = new File("./src/main/resources/saml/metadata/sso-local.xml");
         } catch (Exception e) {
             e.printStackTrace();
         }
