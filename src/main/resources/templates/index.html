@@ -1,10 +1,65 @@
 <!doctype html>
 <html>
 <head>
-<title>Spring Security SAML</title>
+    <title>Spring Security SAML</title>
 </head>
+<style>
+    body {
+        background-color: #fef5e7;
+        margin: 0;
+    }
+    .header {
+        padding: 0.5rem 1rem;
+        background-color: #f8b75b;
+        text-transform: capitalize;
+    }
+    .body {
+        margin: 3rem 0;
+    }
+    .card {
+        text-align: center;
+        padding: 1rem;
+        border: 1px solid #c0c4cc;
+        border-radius: 1rem;
+        height: 10rem;
+        width: 20rem;
+        margin: auto;
+    }
+    .login-btn {
+        color: #fff;
+        background-color: #337ab7;
+        border-color: #2e6da4;
+        padding: 0.5rem 1rem;
+        border: 1px solid #2e6da4;
+        border-radius: 0.5rem;
+        cursor: pointer;
+    }
+    .login-btn:hover {
+        color: #fff;
+        background-color: #286090;
+        border-color: #204d74;
+    }
+    a {
+        text-decoration: none;
+        color: white;
+    }
+</style>
 <body>
-    <h3><Strong>Welcome to Spring Security SAML</strong></h3>
-    <a th:href="@{/auth}">Login</a>
+<div class="header">
+    <h2 id="app-name">Multi Tenant App</h2>
+</div>
+<div class="body">
+    <div class="card">
+        <h3>Welcome User!!</h3>
+        <button class="login-btn">
+            <a th:href="@{/auth}">Login with Okta</a>
+        </button>
+    </div>
+</div>
 </body>
+<script>
+let host = window.location.host.split(".");
+let tenantName = host[0] || "Tenant";
+document.getElementById("app-name").innerText = tenantName;
+</script>
 </html>
