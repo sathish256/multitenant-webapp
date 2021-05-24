@@ -1,13 +1,85 @@
 <!doctype html>
 <html>
 <head>
-<title>Spring Security SAML: Home</title>
+    <title>Spring Security SAML: Home</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"></link>
 </head>
+<style>
+        body {
+            background-color: #fef5e7;
+            margin: 0;
+        }
+        header {
+            padding: 0.5rem 1rem;
+            background-color: #f8b75b;
+            text-transform: capitalize;
+            display: flex;
+            justify-content: space-between;
+        }
+        .action {
+            display: flex;
+            align-items: center;
+        }
+        .fa-sign-out {
+            font-size: 24px;
+            cursor: pointer;
+            margin-left: 8px;
+        }
+        .fa-sign-out:hover {
+            color: white;
+        }
+        .body {
+            margin: 3rem 1rem;
+        }
+        a {
+            text-decoration: none;
+            color: #de5121;
+        }
+        .products-table {
+            font-family: Arial, Helvetica, sans-serif;
+            border-collapse: collapse;
+            width: 100%;
+        }
+        .products-table td, .products-table th {
+            border: 1px solid #ddd;
+            padding: 8px;
+        }
+        .products-table tr:hover {
+            cursor: pointer;
+            background-color: #ddd;
+        }
+        .products-table th {
+            padding-top: 12px;
+            padding-bottom: 12px;
+            text-align: left;
+            background-color: #fa9147;
+            color: white;
+        }
+    </style>
 <body>
-    <h3><Strong>Welcome!</strong><br/>You are successfully logged in!</h3>
-    <p>You are logged as <span class="badge badge-dark" th:text="${username}">null</span>.</p>
-    <small>
-        <a th:href="@{/logout}">Logout</a>
-    </small>
+<header>
+    <h2 id="app-name">Multi Tenant App</h2>
+    <div class="action">
+        <h3>Welcome, <span th:text="${username}">null</span>!</h3>
+        <a th:href="@{/auth}"><i class="fa fa-sign-out"></i></a>
+    </div>
+</header>
+<div class="body">
+    <h2>Products</h2>
+    <table class="products-table">
+        <tr>
+            <th>ID</th>
+            <th>Category</th>
+            <th>Name</th>
+            <th>Price</th>
+        </tr>
+        <tr th:each="product : ${products}">
+            <td th:text="${product.getId()}"></td>
+            <td th:text="${product.getCategory()}"></td>
+            <td th:text="${product.getName()}"></td>
+            <td th:text="${product.getPrice()}"></td>
+        </tr>
+    </table>
+</div>
 </body>
 </html>
