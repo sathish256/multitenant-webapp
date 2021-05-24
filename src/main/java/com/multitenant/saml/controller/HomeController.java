@@ -1,6 +1,6 @@
 package com.multitenant.saml.controller;
 
-import com.multitenant.saml.Product;
+import com.multitenant.saml.models.Products;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 
 @Controller
@@ -38,14 +40,10 @@ public class HomeController {
     }
 
 
-    public List<Product> getProducts() {
-        List<Product> products = new ArrayList<>();
+    public List<Products> getProducts() {
+        List<Products> products = new ArrayList<>();
         for (int i=1;i<=10;i++) {
-            Product product = new Product();
-            product.setId(""+i);
-            product.setCategory("Category"+i);
-            product.setName("Name"+i);
-            product.setPrice(""+i);
+            Products product = new Products("id"+i, "category"+i, "name"+i, Double.parseDouble(""+i*i),Arrays.asList("tag"+i), new Date());
             products.add(product);
         }
 
